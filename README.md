@@ -7,4 +7,4 @@ A sample starter application to describe various angular2 features ( I am using 
   - Using systemjs to build the ts files and run the application in the browser
 
 
-I am still learning an working on it, will keep updating whatever I find.
+I am still learning and working on it, will keep updating whatever I find.

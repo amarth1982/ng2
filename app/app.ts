@@ -37,6 +37,11 @@ import {PersonForm} from './components/person/person-form'
   directives: [APP_DIRECTIVES, APP_COMPONENTS, RouterOutlet, RouterLink],
   //Note: even though router-outlet looks like a component its not
   // Its a directive
+
+  //Route-link takes in an array of Routes
+  //Each route could be followed by route parameters
+  //like: <a [route-link]="['/person', {personId: 1}]">Person 1</a>
+  //Its a must to prepend the route params
   template: `
     <div>
       <nav class="navbar navbar-default">
