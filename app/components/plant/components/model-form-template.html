@@ -1,0 +1,53 @@
+<!--
+// using #modelForm for form variable will fail as the name is same as Selector/Class, need to find out
+// (update: looks like a parser issue, #modelform works, could be angular's way of hypen-ating the pascal case that collides with selector here)
+// #myform="form" we assing the directive form to myform, so to validate we will use myform.form.valid instead in button disabled
+-->
+
+<div class="model-form">
+  <form role="form" #modelform (submit)='onSubmit()'  [ng-form-model]="formControls">
+    <div class="well well-xs" ng-control-group="model">
+      <h3>
+        <span class="glyphicon glyphicon-screenshot">
+          Model
+        </span>
+      </h3>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" ng-control="name" class="form-control" trimmed>
+      </div>
+      <div class="form-group">
+        <label>Year: </label>
+        <select ng-control="year" class="form-control">
+          <option *ng-for="#year of years">{{year}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="well well-xs" ng-control-group="engine">
+      <h3>
+        <span class="glyphicon glyphicon-wrench">
+          Engine
+        </span>
+      </h3>
+      <div class="form-group">
+        <label>Type</label>
+        <select #enginetype ng-control="type" class="form-control">
+          <option *ng-for="#engine of engines">{{engine}}</option>
+        </select>
+      </div>
+      <template [ng-if]="enginetype.value == 'Diesel'">
+        <div class="checkbox">
+          <label title="Improve engine efficency...">
+            <input type="checkbox" ng-control="cheat">
+            <span>
+              Cheat EPA( <span class="glyphicon glyphicon-leaf"><h4></h4></span> )
+             </span>
+          </label>
+        </div>
+      </template>
+    </div>
+
+    <button [disabled]="!modelform.valid">Submit</button>
+  </form>
+</div>

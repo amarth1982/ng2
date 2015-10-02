@@ -4,8 +4,6 @@ import {Component, View, Inject, ViewEncapsulation} from 'angular2/angular2'
   selector: 'home'
 })
 @View({
-  template: `
-    <h2>Home</h2>
-  `
+  templateUrl: '/app/components/home/template.html'
 })
 export class Home{}

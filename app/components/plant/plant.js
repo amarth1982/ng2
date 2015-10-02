@@ -9,19 +9,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var angular2_1 = require('angular2/angular2');
-var Home = (function () {
-    function Home() {
-    }
-    Home = __decorate([
-        angular2_1.Component({
-            selector: 'home'
-        }),
-        angular2_1.View({
-            template: "\n    <h2>Home</h2>\n  "
-        }), 
-        __metadata('design:paramtypes', [])
-    ], Home);
-    return Home;
-})();
-exports.Home = Home;
+import { Component, View, ViewEncapsulation } from 'angular2/angular2';
+import { ModelForm } from './components/model-form';
+export let Plant = class {
+};
+Plant = __decorate([
+    Component({
+        selector: 'plant'
+    }),
+    View({
+        encapsulation: ViewEncapsulation.Native,
+        directives: [ModelForm],
+        templateUrl: '/app/components/plant/template.html'
+    }), 
+    __metadata('design:paramtypes', [])
+], Plant);

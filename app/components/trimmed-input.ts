@@ -8,7 +8,8 @@ A component being written as a directive in Angular2
   selector: '[trimmed]',
   host:{
     '(input)' : 'onChange($event.target.value)',
-    '[value]' :'value'
+    '[value]' :'value',
+    '(blur)': 'onBlur($event)'
   },
 })
 @View({
@@ -21,7 +22,8 @@ export class TrimmedInput {
   }
   onChange(updatedValue: string) {
     this.value = (updatedValue || '').trim();
-
-    console.log(this.value)
+  }
+  onBlur(e){
+    e.target.value = this.value
   }
 }

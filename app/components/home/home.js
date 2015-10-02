@@ -10,28 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component, View } from 'angular2/angular2';
-export let TrimmedInput = class {
-    constructor() {
-        this.value = '';
-    }
-    onChange(updatedValue) {
-        this.value = (updatedValue || '').trim();
-    }
-    onBlur(e) {
-        e.target.value = this.value;
-    }
+export let Home = class {
 };
-TrimmedInput = __decorate([
+Home = __decorate([
     Component({
-        selector: '[trimmed]',
-        host: {
-            '(input)': 'onChange($event.target.value)',
-            '[value]': 'value',
-            '(blur)': 'onBlur($event)'
-        },
+        selector: 'home'
     }),
     View({
-        template: ``
+        templateUrl: '/app/components/home/template.html'
     }), 
     __metadata('design:paramtypes', [])
-], TrimmedInput);
+], Home);

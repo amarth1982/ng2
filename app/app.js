@@ -14,10 +14,10 @@ import { ROUTER_BINDINGS, HashLocationStrategy, LocationStrategy, RouterLink, Ro
 import { APP_DIRECTIVES } from './directives/directives';
 import { APP_COMPONENTS } from './components/components';
 import { Home } from './components/home/home';
-import { PersonForm } from './components/person/person-form';
+import { Plant } from './components/plant/plant';
 let App = class {
     constructor() {
-        this.appTitle = 'Angular2';
+        this.appTitle = 'falseWagen';
     }
 };
 App = __decorate([
@@ -26,7 +26,7 @@ App = __decorate([
             path: '/', as: 'home', component: Home
         }),
         {
-            path: '/person', as: 'person', component: PersonForm
+            path: '/plant', as: 'plant', component: Plant
         }
     ]),
     Component({
@@ -37,16 +37,18 @@ App = __decorate([
         template: `
     <div>
       <nav class="navbar navbar-default">
-        <div class="container-fluid">
+        <div class="container-fluid  bg-warning">
           <div class="navbar-header">
-            <a class="navbar-brand" [router-link]="['/home']">
-              {{appTitle}}
+            <a class="bg-success navbar-brand" [router-link]="['/home']">
+              <span class="text-success glyphicon glyphicon-euro">
+                {{appTitle}}
+              </span>
             </a>
           </div>
           <div>
             <ul class="nav navbar-nav">
               <li>
-                <a [router-link]="['/person']">Person</a>
+                <a [router-link]="['/plant']">Plant</a>
               </li>
             </ul>
           </div>
