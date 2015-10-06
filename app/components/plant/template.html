@@ -4,10 +4,13 @@
       <h1>
           <span class="glyphicon glyphicon-fire text-danger">
             Manufacturing Plant
-          </span>         
+          </span>
       </h1>
     </header>
+    <button [router-link]="['./models']" class="btn btn-lg btn-primary">R&D</button>
+    <button [router-link]="['./assembly-line']" class="btn btn-lg btn-success">Production Line</button>
   </div>
 
-  <model-form></model-form>
+
+ <router-outlet></router-outlet>
 </div>

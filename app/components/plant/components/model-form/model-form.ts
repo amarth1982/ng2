@@ -1,7 +1,7 @@
 import {Component, View, Inject, NgFor, NgIf} from 'angular2/angular2'
 import {FORM_BINDINGS, FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup} from 'angular2/forms'
 
-import {TrimmedInput} from '../../trimmed-input';
+import {TrimmedInput} from '../../../trimmed-input';
 
 @Component({
   bindings: [FORM_BINDINGS],
@@ -18,7 +18,7 @@ import {TrimmedInput} from '../../trimmed-input';
       }
     `
   ],
-  templateUrl: '/app/components/plant/components/model-form-template.html'
+  templateUrl: '/app/components/plant/components/model-form/model-form-template.html'
 })
 export class ModelForm{
   public fb: FormBuilder;

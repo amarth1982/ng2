@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component, View, NgFor, NgIf } from 'angular2/angular2';
 import { FORM_BINDINGS, FORM_DIRECTIVES, FormBuilder, Validators } from 'angular2/forms';
-import { TrimmedInput } from '../../trimmed-input';
+import { TrimmedInput } from '../../../trimmed-input';
 export let ModelForm = class {
     constructor() {
         this.years = ModelForm._years;
@@ -63,7 +63,7 @@ ModelForm = __decorate([
       }
     `
         ],
-        templateUrl: '/app/components/plant/components/model-form-template.html'
+        templateUrl: '/app/components/plant/components/model-form/model-form-template.html'
     }), 
     __metadata('design:paramtypes', [])
 ], ModelForm);

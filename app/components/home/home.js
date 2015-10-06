@@ -10,7 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component, View } from 'angular2/angular2';
+import { Router } from 'angular2/router';
 export let Home = class {
+    constructor(_router) {
+        this._router = _router;
+        this._componentLifecycleHandler = (lifecycleEvent) => {
+            return (next, prev) => {
+                console.log(lifecycleEvent);
+                return true;
+            };
+        };
+        this.OnVisitOurPlantClicked = ($event) => {
+            console.log('navigating...');
+            this._router.navigate('/plant');
+        };
+        this.onActivate = this._componentLifecycleHandler('on-activate');
+        this.onReuse = this._componentLifecycleHandler('on-reuse');
+        this.onDeactivate = this._componentLifecycleHandler('on-deactivate');
+        this.canReuse = this._componentLifecycleHandler('can reuse home');
+        console.log('Home Component');
+    }
 };
 Home = __decorate([
     Component({
@@ -19,5 +38,5 @@ Home = __decorate([
     View({
         templateUrl: '/app/components/home/template.html'
     }), 
-    __metadata('design:paramtypes', [])
+    __metadata('design:paramtypes', [Router])
 ], Home);

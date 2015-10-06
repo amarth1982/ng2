@@ -10,25 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component, View, bootstrap, bind } from 'angular2/angular2';
-import { ROUTER_BINDINGS, HashLocationStrategy, LocationStrategy, RouterLink, RouteConfig, RouterOutlet, Route } from 'angular2/router';
+import { ROUTER_BINDINGS, HashLocationStrategy, LocationStrategy, Router, RouterLink, RouteConfig, RouterOutlet } from 'angular2/router';
 import { APP_DIRECTIVES } from './directives/directives';
 import { APP_COMPONENTS } from './components/components';
-import { Home } from './components/home/home';
-import { Plant } from './components/plant/plant';
+import AppRoutes from './bindings/app.routes';
 let App = class {
-    constructor() {
+    constructor(router) {
+        this.router = router;
+        this._componentLifecycleHandler = (lifecycleEvent) => {
+            return (next, prev) => {
+                console.log(lifecycleEvent);
+                return true;
+            };
+        };
+        this.onActivate = this._componentLifecycleHandler('on-activate');
+        this.onReuse = this._componentLifecycleHandler('on-reuse');
+        this.onDeactivate = this._componentLifecycleHandler('on-deactivate');
+        this.canReuse = this._componentLifecycleHandler('can reuse app');
         this.appTitle = 'falseWagen';
+        console.log(router);
     }
 };
 App = __decorate([
-    RouteConfig([
-        new Route({
-            path: '/', as: 'home', component: Home
-        }),
-        {
-            path: '/plant', as: 'plant', component: Plant
-        }
-    ]),
+    RouteConfig(AppRoutes.routes),
     Component({
         selector: 'app'
     }),
@@ -36,6 +40,10 @@ App = __decorate([
         directives: [APP_DIRECTIVES, APP_COMPONENTS, RouterOutlet, RouterLink],
         template: `
     <div>
+      <!-- Aux routes are defined routes 
+      <router-outlet name='nav'></router-outlet>
+      -->
+
       <nav class="navbar navbar-default">
         <div class="container-fluid  bg-warning">
           <div class="navbar-header">
@@ -54,11 +62,15 @@ App = __decorate([
           </div>
         </div>
       </nav>
+
+      <div *ng-if="router.navigating" class=container-fluid>
+        <span class="glyphicons glyphicons-refresh"><h1> </h1></span>
+      </div>
       <router-outlet></router-outlet>
     </div>
   `
     }), 
-    __metadata('design:paramtypes', [])
+    __metadata('design:paramtypes', [Router])
 ], App);
 bootstrap(App, [
     ROUTER_BINDINGS,

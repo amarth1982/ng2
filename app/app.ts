@@ -1,5 +1,5 @@
 //Include Components View bootstrap from angular2
-import {Component, View, bootstrap, bind} from 'angular2/angular2'
+import {Component, View, bootstrap, bind} from 'angular2/angular2';
 
 import {
   ROUTER_BINDINGS,
@@ -10,10 +10,18 @@ import {
   RouterLink,
   RouteConfig,
   RouterOutlet,
-  Route} from 'angular2/router'
+  Route,
+  OnActivate,
+  OnReuse,
+  OnDeactivate,
+  CanReuse,
+  Instruction, //Instruction is the base for ComponentInstruction and PrimaryInstruction
+  ComponentInstruction} from 'angular2/router'
 
 import {APP_DIRECTIVES} from './directives/directives'
 import {APP_COMPONENTS} from './components/components'
+
+import AppRoutes from './bindings/app.routes'
 
 import {Home} from './components/home/home'
 import {Plant} from './components/plant/plant'
@@ -22,20 +30,13 @@ import {Plant} from './components/plant/plant'
 //RouteDefinition is an interface and Route Implements the RouteDefinition
 //Other type of route include AuxRoute, AsyncRoute & Redirect
 //(Async and Redirect are used to route async loaded components)
-@RouteConfig([
-  new Route({
-    path: '/', as : 'home', component: Home
-  }),
-  {
-    path: '/plant', as: 'plant', component: Plant
-  }
-])
+@RouteConfig(AppRoutes.routes)
 @Component({
   selector: 'app'
 })
 @View({
   directives: [APP_DIRECTIVES, APP_COMPONENTS, RouterOutlet, RouterLink],
-  //Note: even though router-outlet looks like a component its not
+  //Note: even though router-outlet looks like a component(custom-element) its not
   // Its a directive
 
   //Route-link takes in an array of Routes
@@ -44,6 +45,10 @@ import {Plant} from './components/plant/plant'
   //Its a must to prepend the route params
   template: `
     <div>
+      <!-- Aux routes are defined routes 
+      <router-outlet name='nav'></router-outlet>
+      -->
+
       <nav class="navbar navbar-default">
         <div class="container-fluid  bg-warning">
           <div class="navbar-header">
@@ -62,16 +67,36 @@ import {Plant} from './components/plant/plant'
           </div>
         </div>
       </nav>
+
+      <div *ng-if="router.navigating" class=container-fluid>
+        <span class="glyphicons glyphicons-refresh"><h1> </h1></span>
+      </div>
       <router-outlet></router-outlet>
     </div>
   `
 })
-class App{
+class App  implements OnActivate, OnReuse, OnDeactivate, CanReuse{
   public appTitle: string
 
-  constructor(){
+  private _componentLifecycleHandler =
+   (lifecycleEvent:string): { (next: ComponentInstruction, prev: ComponentInstruction) } => {
+      return (next, prev) => {
+        console.log(lifecycleEvent)
+       //  for CanReuse
+        return true;
+      }
+   }
+
+  constructor(public router: Router){
     this.appTitle = 'falseWagen'
+
+    console.log(router)
   }
+
+  public onActivate = this._componentLifecycleHandler('on-activate')
+  public onReuse = this._componentLifecycleHandler('on-reuse')
+  public onDeactivate = this._componentLifecycleHandler('on-deactivate')
+  public canReuse = this._componentLifecycleHandler('can reuse app')
 }
 
 bootstrap(App, [

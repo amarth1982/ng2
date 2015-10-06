@@ -10,17 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component, View, ViewEncapsulation } from 'angular2/angular2';
-import { ModelForm } from './components/model-form';
+import { Router, RouterOutlet, RouterLink } from 'angular2/router';
+import { ModelForm } from './components/model-form/model-form';
+import { AssemblyLine } from './components/assembly-line/assembly-line';
 export let Plant = class {
+    constructor(_childRouter) {
+        this._childRouter = _childRouter;
+        this._childRouter.config([
+            { path: '/models', component: ModelForm, as: 'models' },
+            { path: '/assembly-line', component: AssemblyLine, as: 'assembly-line' }
+        ]);
+    }
 };
 Plant = __decorate([
     Component({
         selector: 'plant'
     }),
     View({
-        encapsulation: ViewEncapsulation.Native,
-        directives: [ModelForm],
+        encapsulation: ViewEncapsulation.None,
+        directives: [RouterOutlet, RouterLink],
         templateUrl: '/app/components/plant/template.html'
     }), 
-    __metadata('design:paramtypes', [])
+    __metadata('design:paramtypes', [Router])
 ], Plant);
