@@ -10,13 +10,7 @@ import {
   RouterLink,
   RouteConfig,
   RouterOutlet,
-  Route,
-  OnActivate,
-  OnReuse,
-  OnDeactivate,
-  CanReuse,
-  Instruction, //Instruction is the base for ComponentInstruction and PrimaryInstruction
-  ComponentInstruction} from 'angular2/router'
+  Route} from 'angular2/router'
 
 import {APP_DIRECTIVES} from './directives/directives'
 import {APP_COMPONENTS} from './components/components'
@@ -45,7 +39,7 @@ import {Plant} from './components/plant/plant'
   //Its a must to prepend the route params
   template: `
     <div>
-      <!-- Aux routes are defined routes 
+      <!-- Aux routes are defined routes
       <router-outlet name='nav'></router-outlet>
       -->
 
@@ -75,28 +69,14 @@ import {Plant} from './components/plant/plant'
     </div>
   `
 })
-class App  implements OnActivate, OnReuse, OnDeactivate, CanReuse{
+class App{
   public appTitle: string
-
-  private _componentLifecycleHandler =
-   (lifecycleEvent:string): { (next: ComponentInstruction, prev: ComponentInstruction) } => {
-      return (next, prev) => {
-        console.log(lifecycleEvent)
-       //  for CanReuse
-        return true;
-      }
-   }
 
   constructor(public router: Router){
     this.appTitle = 'falseWagen'
 
     console.log(router)
   }
-
-  public onActivate = this._componentLifecycleHandler('on-activate')
-  public onReuse = this._componentLifecycleHandler('on-reuse')
-  public onDeactivate = this._componentLifecycleHandler('on-deactivate')
-  public canReuse = this._componentLifecycleHandler('can reuse app')
 }
 
 bootstrap(App, [

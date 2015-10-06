@@ -23,26 +23,24 @@ export class Home  implements
                     OnDeactivate,
                     CanReuse{
 
- private _componentLifecycleHandler =
-  (lifecycleEvent:string): { (next: ComponentInstruction, prev: ComponentInstruction) } => {
-     return (next, prev) => {
-       console.log(lifecycleEvent)
-      //  for CanReuse
-       return true;
-     }
-  }
+ private _componentLifecycleHandler = function(lifecycleEvent){
+   console.log(lifecycleEvent)
+ }
 
   constructor(private _router: Router){
     console.log('Home Component')
   }
 
  public OnVisitOurPlantClicked = ($event) => {
-    console.log('navigating...')
     this._router.navigate('/plant')
   }
 
-  public onActivate = this._componentLifecycleHandler('on-activate')
-  public onReuse = this._componentLifecycleHandler('on-reuse')
-  public onDeactivate = this._componentLifecycleHandler('on-deactivate')
-  public canReuse = this._componentLifecycleHandler('can reuse home')
+  //This will not work as Typescript will create it as a property to the Home
+  //component instance
+  //public onActivate = (next, prev) => {this._componentLifecycleHandler('on-activate')}
+  //Instead it should be function implementation
+  public onActivate(next, prev){this._componentLifecycleHandler('on-activate')}
+  public onReuse(next, prev){this._componentLifecycleHandler('on-reuse')}
+  public onDeactivate(next, prev){this._componentLifecycleHandler('on-deactivate')}
+  public canReuse(next, prev){this._componentLifecycleHandler('can reuse home')}
 }

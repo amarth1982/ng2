@@ -1,46 +1,34 @@
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") return Reflect.decorate(decorators, target, key, desc);
-    switch (arguments.length) {
-        case 2: return decorators.reduceRight(function(o, d) { return (d && d(o)) || o; }, target);
-        case 3: return decorators.reduceRight(function(o, d) { return (d && d(target, key)), void 0; }, void 0);
-        case 4: return decorators.reduceRight(function(o, d) { return (d && d(target, key, o)) || o; }, desc);
-    }
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component, View, bootstrap, bind } from 'angular2/angular2';
-import { ROUTER_BINDINGS, HashLocationStrategy, LocationStrategy, Router, RouterLink, RouteConfig, RouterOutlet } from 'angular2/router';
-import { APP_DIRECTIVES } from './directives/directives';
-import { APP_COMPONENTS } from './components/components';
-import AppRoutes from './bindings/app.routes';
+var angular2_1 = require('angular2/angular2');
+var router_1 = require('angular2/router');
+var directives_1 = require('./directives/directives');
+var components_1 = require('./components/components');
+var app_routes_1 = require('./bindings/app.routes');
 let App = class {
     constructor(router) {
         this.router = router;
-        this._componentLifecycleHandler = (lifecycleEvent) => {
-            return (next, prev) => {
-                console.log(lifecycleEvent);
-                return true;
-            };
-        };
-        this.onActivate = this._componentLifecycleHandler('on-activate');
-        this.onReuse = this._componentLifecycleHandler('on-reuse');
-        this.onDeactivate = this._componentLifecycleHandler('on-deactivate');
-        this.canReuse = this._componentLifecycleHandler('can reuse app');
         this.appTitle = 'falseWagen';
         console.log(router);
     }
 };
 App = __decorate([
-    RouteConfig(AppRoutes.routes),
-    Component({
+    router_1.RouteConfig(app_routes_1.default.routes),
+    angular2_1.Component({
         selector: 'app'
     }),
-    View({
-        directives: [APP_DIRECTIVES, APP_COMPONENTS, RouterOutlet, RouterLink],
+    angular2_1.View({
+        directives: [directives_1.APP_DIRECTIVES, components_1.APP_COMPONENTS, router_1.RouterOutlet, router_1.RouterLink],
         template: `
     <div>
-      <!-- Aux routes are defined routes 
+      <!-- Aux routes are defined routes
       <router-outlet name='nav'></router-outlet>
       -->
 
@@ -70,10 +58,10 @@ App = __decorate([
     </div>
   `
     }), 
-    __metadata('design:paramtypes', [Router])
+    __metadata('design:paramtypes', [router_1.Router])
 ], App);
-bootstrap(App, [
-    ROUTER_BINDINGS,
-    bind(LocationStrategy).toClass(HashLocationStrategy)
+angular2_1.bootstrap(App, [
+    router_1.ROUTER_BINDINGS,
+    angular2_1.bind(router_1.LocationStrategy).toClass(router_1.HashLocationStrategy)
 ])
     .then(success => console.log('app launched successfully'), error => console.log('something happened : ', error));
