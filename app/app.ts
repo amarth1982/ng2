@@ -1,5 +1,8 @@
 //Include Components View bootstrap from angular2
-import {Component, View, bootstrap, bind} from 'angular2/angular2';
+import {Component, View, bootstrap, bind, Inject} from 'angular2/angular2';
+import {APP_SERVICE_BINDING} from 'services'
+import {PetrolEngine} from 'services/engine'
+
 
 import {
   ROUTER_BINDINGS,
@@ -12,24 +15,18 @@ import {
   RouterOutlet,
   Route} from 'angular2/router'
 
-import {APP_DIRECTIVES} from './directives/directives'
-import {APP_COMPONENTS} from './components/components'
-
-import AppRoutes from './bindings/app.routes'
-
 import {Home} from './components/home/home'
-import {Plant} from './components/plant/plant'
 
 //We pass in an array of RouteDefinitions to the Route Config
 //RouteDefinition is an interface and Route Implements the RouteDefinition
 //Other type of route include AuxRoute, AsyncRoute & Redirect
 //(Async and Redirect are used to route async loaded components)
-@RouteConfig(AppRoutes.routes)
+//@RouteConfig(appRoutes)
 @Component({
   selector: 'app'
 })
 @View({
-  directives: [APP_DIRECTIVES, APP_COMPONENTS, RouterOutlet, RouterLink],
+  directives: [RouterOutlet, RouterLink],
   //Note: even though router-outlet looks like a component(custom-element) its not
   // Its a directive
 
@@ -61,10 +58,6 @@ import {Plant} from './components/plant/plant'
           </div>
         </div>
       </nav>
-
-      <div *ng-if="router.navigating" class=container-fluid>
-        <span class="glyphicons glyphicons-refresh"><h1> </h1></span>
-      </div>
       <router-outlet></router-outlet>
     </div>
   `
@@ -72,18 +65,41 @@ import {Plant} from './components/plant/plant'
 class App{
   public appTitle: string
 
-  constructor(public router: Router){
+  constructor(public router: Router,
+    @Inject('routes') private routes : Array<Route>,
+    private engine : PetrolEngine){
+
+    this.router.config(routes)
+
+    console.log('app->petrol engine', this.engine)
+    console.log('adding default 6 cylinders to petrol engine')
+    this.engine.cylinders = 6
+    console.log('app->petrol engine', this.engine)
+
     this.appTitle = 'falseWagen'
 
     console.log(router)
+
+    this.router.navigate('/home')
   }
 }
 
 bootstrap(App, [
+    bind('allowedCo2Level').toValue(10),
+    APP_SERVICE_BINDING,
     ROUTER_BINDINGS,
     //Requires to be assigned, else throwing "Error during instantiation of Location"
     //How ever document from LocationStrategy suggest the default is HashLocationStragergy
-    bind(LocationStrategy).toClass(HashLocationStrategy)
+    bind(LocationStrategy).toClass(HashLocationStrategy),
+    bind('routes').toFactory( function(@Inject('appRoutes') appRoutes){
+      let routes = [new Route({
+        path: '/home',
+        component: Home,
+        as: 'home'
+      })].concat(appRoutes)
+
+      return routes
+    }, ['appRoutes'])
   ])
   .then(
     success => console.log('app launched successfully'),

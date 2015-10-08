@@ -1,14 +1,14 @@
-import {Component, View, Inject, NgFor, NgIf} from 'angular2/angular2'
+import {Component, View, Injector, NgFor, NgIf} from 'angular2/angular2'
 import {FORM_BINDINGS, FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup} from 'angular2/forms'
 
-import {TrimmedInput} from '../../../trimmed-input';
+import {PetrolEngine, testbinding} from 'services/engine'
 
 @Component({
   bindings: [FORM_BINDINGS],
   selector: 'model-form'
 })
 @View({
-  directives: [FORM_DIRECTIVES, NgFor, NgIf, TrimmedInput],
+  directives: [FORM_DIRECTIVES, NgFor, NgIf],
   styles:[
     //Enable if View Encapsulation is native
     `@import url('/css/bootstrap.min.css')`,
@@ -18,7 +18,7 @@ import {TrimmedInput} from '../../../trimmed-input';
       }
     `
   ],
-  templateUrl: '/app/components/plant/components/model-form/model-form-template.html'
+  templateUrl: '/plant/components/model-form/model-form-template.html'
 })
 export class ModelForm{
   public fb: FormBuilder;
@@ -28,19 +28,31 @@ export class ModelForm{
     '2015'
   ]
   static _engines: Array<string> = [
-    'v4',
-    'v6',
-    'v8',
-    'v12',
+    'Petrol',
     'Diesel'
   ]
 
   public years = ModelForm._years
   public engines = ModelForm._engines
 
-  constructor(){
+  private _PetrolEngine : {
+      isTurboCharged : boolean
+      cylinders : number
+      EmissionTest(co2Level : number) : boolean
+    }
+
+  constructor(private injector : Injector){
     this.fb = new FormBuilder();
 
+    //note this petrolengine has 6 cylinders, which was assigned
+    //by the App component
+    this._PetrolEngine = injector.get(PetrolEngine)
+    console.log('model-form->petrol engine', this._PetrolEngine)
+
+    let petrolEngineResolvedBinding = Injector.resolve([PetrolEngine])
+
+    console.log('model-form->new petrol engine',
+      injector.resolveAndInstantiate(petrolEngineResolvedBinding))
 
       let modelControlGroups = this.fb.group( {
         "name": ['', Validators.required],
@@ -48,9 +60,9 @@ export class ModelForm{
       })
 
       let engineControlGroups = this.fb.group( {
-        "type": ['v4'],
-        "turbo": [''],
-        "biturbo": [''],
+        "type": ['Petrol']
+        "turbocharger": [''],
+        "cylinders": [''],
         "cheat": ['']
       })
 
@@ -65,5 +77,9 @@ export class ModelForm{
 
   private zipCodeValidator = ()=>{
     return false
+  }
+
+  OnSubmit(){
+
   }
 }

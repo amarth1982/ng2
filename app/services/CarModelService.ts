@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/angular2'
+import {Injectable, Observable} from 'angular2/angular2'
 import {Http} from 'angular2/http'
 
 enum EngineType{
@@ -19,7 +19,7 @@ class Model{
 }
 
 class CarModel{
-  constructor(public model:Model, public engine Engine){
+  constructor(public model:Model, public engine:Engine){
 
   }
 }
@@ -29,9 +29,11 @@ class CarModel{
 export class CarModelService{
   private _url = '/carmodels.json'
 
-  
 
-  constructor(private http: Http){
+  private _CarModelsState : Observable<CarModel>
+
+
+  constructor(private _http: Http){
 
   }
 }

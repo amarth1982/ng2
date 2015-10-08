@@ -42,5 +42,8 @@ export class Home  implements
   public onActivate(next, prev){this._componentLifecycleHandler('on-activate')}
   public onReuse(next, prev){this._componentLifecycleHandler('on-reuse')}
   public onDeactivate(next, prev){this._componentLifecycleHandler('on-deactivate')}
-  public canReuse(next, prev){this._componentLifecycleHandler('can reuse home')}
+  public canReuse(next, prev):boolean{
+    this._componentLifecycleHandler('can reuse home');
+    return true
+  }
 }

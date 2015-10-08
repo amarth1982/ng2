@@ -14,6 +14,16 @@ System.config({
         "main":"app.ts",
         "defaultExtension":"ts",
         "format": "es6"
+      },
+      "services":{
+        "main": "app.services.ts",
+        "defaultExtension":"ts",
+        "format": "es6"
+      },
+      "plant":{
+        "main": "plant.ts",
+        "defaultExtension":"ts",
+        "format": "es6"        
       }
   },
   map: {

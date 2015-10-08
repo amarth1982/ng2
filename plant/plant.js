@@ -9,32 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var angular2_1 = require('angular2/angular2');
 var router_1 = require('angular2/router');
-let Home = class {
-    constructor(_router) {
-        this._router = _router;
-        this._componentLifecycleHandler = function (lifecycleEvent) {
-            console.log(lifecycleEvent);
-        };
-        this.OnVisitOurPlantClicked = ($event) => {
-            this._router.navigate('/plant');
-        };
-        console.log('Home Component');
-    }
-    onActivate(next, prev) { this._componentLifecycleHandler('on-activate'); }
-    onReuse(next, prev) { this._componentLifecycleHandler('on-reuse'); }
-    onDeactivate(next, prev) { this._componentLifecycleHandler('on-deactivate'); }
-    canReuse(next, prev) {
-        this._componentLifecycleHandler('can reuse home');
-        return true;
+var model_form_1 = require('./components/model-form/model-form');
+var assembly_line_1 = require('./components/assembly-line/assembly-line');
+let Plant = class {
+    constructor(_childRouter) {
+        this._childRouter = _childRouter;
+        if (!Plant._isRouteConfigured) {
+            this._childRouter.config([
+                { path: '/models', component: model_form_1.ModelForm, as: 'models' },
+                { path: '/assembly-line', component: assembly_line_1.AssemblyLine, as: 'assembly-line' }
+            ]);
+            Plant._isRouteConfigured = true;
+        }
     }
 };
-Home = __decorate([
+Plant._isRouteConfigured = false;
+Plant = __decorate([
     angular2_1.Component({
-        selector: 'home'
+        selector: 'plant'
     }),
     angular2_1.View({
-        templateUrl: '/app/components/home/template.html'
+        encapsulation: angular2_1.ViewEncapsulation.None,
+        directives: [router_1.RouterOutlet, router_1.RouterLink],
+        templateUrl: '/plant/template.html'
     }), 
     __metadata('design:paramtypes', [router_1.Router])
-], Home);
-exports.Home = Home;
+], Plant);
+exports.Plant = Plant;

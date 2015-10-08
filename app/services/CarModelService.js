@@ -22,14 +22,14 @@ class Engine {
 class Model {
 }
 class CarModel {
-    constructor(model, engine = Engine) {
+    constructor(model, engine) {
         this.model = model;
         this.engine = engine;
     }
 }
 let CarModelService = class {
-    constructor(http) {
-        this.http = http;
+    constructor(_http) {
+        this._http = _http;
         this._url = '/carmodels.json';
     }
 };

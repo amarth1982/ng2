@@ -14,7 +14,7 @@
       </h3>
       <div class="form-group">
         <label>Name:</label>
-        <input type="text" ng-control="name" class="form-control" trimmed>
+        <input type="text" ng-control="name" class="form-control" >
       </div>
       <div class="form-group">
         <label>Year: </label>
@@ -36,6 +36,16 @@
           <option *ng-for="#engine of engines">{{engine}}</option>
         </select>
       </div>
+      <div class="checkbox">
+        <label title="Is turbo charged">
+          <input type="checkbox" ng-control="turbocharger">
+          <span>Turbo Charged</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="">Cylinders</label>
+        <input type="number" ng-control="cylinders">
+      </div>
       <template [ng-if]="enginetype.value == 'Diesel'">
         <div class="checkbox">
           <label title="Improve engine efficency...">
@@ -48,6 +58,6 @@
       </template>
     </div>
 
-    <button [disabled]="!modelform.valid">Submit</button>
+    <button >Submit</button> <!--[disabled]="!modelform.valid"-->
   </form>
 </div>

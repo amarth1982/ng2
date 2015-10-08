@@ -1,4 +1,5 @@
-import {Component, View, ViewEncapsulation} from 'angular2/angular2'
+
+import {Component, View, ViewEncapsulation, Injector} from 'angular2/angular2'
 import {Router, RouterOutlet, RouteConfig, RouterLink} from 'angular2/router'
 import {ModelForm} from './components/model-form/model-form'
 import {AssemblyLine} from './components/assembly-line/assembly-line'
@@ -17,13 +18,19 @@ import {AssemblyLine} from './components/assembly-line/assembly-line'
   //emulated view encapsulation manages styles by using random id name as css selector
   encapsulation: ViewEncapsulation.None, //Native, None
   directives: [RouterOutlet, RouterLink],
-  templateUrl: '/app/components/plant/template.html'
+  templateUrl: '/plant/template.html'
 })
 export class Plant{
+    private static _isRouteConfigured = false;
     constructor(private _childRouter : Router){
-      this._childRouter.config([
-        { path: '/models', component: ModelForm, as: 'models'},
-        { path: '/assembly-line', component: AssemblyLine, as: 'assembly-line'}
-      ])
+      if(!Plant._isRouteConfigured)
+      {
+          this._childRouter.config([
+          { path: '/models', component: ModelForm, as: 'models'},
+          { path: '/assembly-line', component: AssemblyLine, as: 'assembly-line'}
+        ])
+
+        Plant._isRouteConfigured = true;
+      }
     }
 }
